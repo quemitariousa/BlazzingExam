@@ -1,0 +1,19 @@
+﻿@typeparam TItem
+
+@if (ErrorList.Count > 0)
+{
+    <ul class="text-danger">
+        @foreach (var s in ErrorList)
+        {
+            <li>@ChildContent</li>
+        }
+    </ul>
+}
+
+@code {
+    [Parameter]
+    public List<TItem> ErrorList { get; set; } = new();
+
+    [Parameter]
+    public RenderFragment<TItem> ChildContent { get; set; }
+}

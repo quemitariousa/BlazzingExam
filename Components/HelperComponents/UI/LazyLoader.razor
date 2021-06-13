@@ -1,0 +1,31 @@
+﻿@typeparam TResult
+
+@if (!_loaded)
+{
+    @PlaceHolder
+}
+else
+{
+    @_realValue
+}
+
+@code {
+    private TResult _realValue;
+    private bool _loaded = false;
+
+    [Parameter]
+    public Task<TResult> Action { get; set; }
+
+    [Parameter]
+    public RenderFragment PlaceHolder { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _realValue = await Action;
+            _loaded = true;
+            StateHasChanged();
+        }
+    }
+}

@@ -1,0 +1,44 @@
+﻿<AuthorizeView>
+    <Authorized>
+        @if (_hasPermission)
+                {
+        <div>@Authorized</div>
+        }
+                else
+                {
+        <div>@AuthorizePermNotFound</div>
+        }
+    </Authorized>
+    <NotAuthorized>
+        @UnAuthorized
+    </NotAuthorized>
+    <Authorizing>
+        @Authorizing
+    </Authorizing>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public RenderFragment Authorized { get; set; }
+
+    [Parameter]
+    public RenderFragment UnAuthorized { get; set; }
+
+    [Parameter]
+    public RenderFragment Authorizing { get; set; }
+
+    [Parameter]
+    public RenderFragment AuthorizePermNotFound { get; set; }
+
+    [Parameter]
+    public int PermissionId { get; set; }
+
+    private bool _hasPermission;
+
+    protected override void OnInitialized()
+    {
+        @*_hasPermission = _permissionChecker.HasPermission(PermissionId);*@
+        // TODO: Get Permission From backend
+    }
+
+}

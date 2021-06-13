@@ -1,0 +1,22 @@
+﻿@inject NavigationManager NavigationManager
+
+@functions{
+    [Parameter]
+    public int PermissionId { get; set; }
+
+    [Parameter]
+    public string ReturnUrl { get; set; } = "/";
+
+    [Parameter]
+    public bool RelodRequired { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        @*if (!PermissionChecker.HasPermission(PermissionId))
+        {
+            NavigationManager.NavigateTo(ReturnUrl, RelodRequired);
+        }*@
+        // TODO: Get Permission from backend
+    }
+
+}

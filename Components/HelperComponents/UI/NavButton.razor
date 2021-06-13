@@ -1,0 +1,22 @@
+﻿@inject NavigationManager NavigationManager
+
+<button @onclick="Callback"  @attributes="AdditionalAttributes">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter]
+    public string Url { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; }
+
+    private void Callback()
+    {
+        NavigationManager.NavigateTo(Url);
+    }
+    
+}
