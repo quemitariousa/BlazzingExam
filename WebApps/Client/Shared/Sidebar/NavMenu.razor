@@ -1,0 +1,31 @@
+﻿@inject IJSRuntime Js
+
+<div class="sidebar-menu">
+    <ul class="menu">
+        <li class="sidebar-title">Menu</li>
+        <LiNavLink class="sidebar-item" Link="" Match="NavLinkMatch.All">
+            <a href="" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Dashboard</span>
+            </a>
+        </LiNavLink>
+        <LiNavLink class="sidebar-item" Link="hi">
+            <a href="hi" class="sidebar-link">
+                <i class="bi bi-grid-fill"></i>
+                <span>Test</span>
+            </a>
+        </LiNavLink>
+    </ul>
+</div>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Js.InvokeAsync<IJSObjectReference>(
+                "import", "/assets/js/main.js");
+        }
+    }
+}

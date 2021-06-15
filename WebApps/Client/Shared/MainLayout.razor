@@ -1,17 +1,30 @@
 ﻿@inherits LayoutComponentBase
+@using BlazzingExam.WebApps.Client.Shared.Sidebar
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<div id="sidebar" class="@(_isActive ? ActiveClass : string.Empty)">
+    <Wrapper HideMenu="ToggleNavbar" />
+</div>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
+<div id="main">
+    <header class="mb-3">
+        <a @onclick="ToggleNavbar" href="#" class="burger-btn @(_isActive ? "d-none" : "d-block")">
+            <i class="bi bi-justify fs-3"></i>
+        </a>
+    </header>
 
-        <div class="content px-4">
-            @Body
-        </div>
+    <div class="page-content">
+        @Body
     </div>
 </div>
+
+@code
+{
+    private const string ActiveClass = "active";
+
+    private bool _isActive;
+
+    private void ToggleNavbar()
+    {
+        _isActive = !_isActive;
+    }
+}
