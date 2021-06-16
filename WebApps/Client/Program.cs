@@ -16,10 +16,12 @@ namespace BlazzingExam.WebApps.Client
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             
+            AddServices(builder);
+
             await builder.Build().RunAsync();
         }
 
-        public static void AddServices(this WebAssemblyHostBuilder builder)
+        private static void AddServices(WebAssemblyHostBuilder builder)
         {
             var version = 1;
             var baseUrl = $"{builder.HostEnvironment.BaseAddress}/Api/V{version}";

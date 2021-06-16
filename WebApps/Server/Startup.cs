@@ -1,5 +1,12 @@
+using BlazzingExam.Core.Server.Security;
+using BlazzingExam.Core.Server.Security.Middlewares.Extensions;
+using BlazzingExam.Core.Server.ServerServices;
+using BlazzingExam.Core.Server.ServerServices.Interfaces;
+using BlazzingExam.DataLibrary.Contexts;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,6 +28,19 @@ namespace BlazzingExam.WebApps.Server
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddDbContext<ExamDbContext>(p =>
+            {
+                p.UseSqlServer(SECURITYCODES.DatabaseConnection);
+            });
+
+            services.AddAuthentication(p =>
+            {
+                p.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie();
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IPermissionService, PermissionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +63,10 @@ namespace BlazzingExam.WebApps.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseIdentityUpdater();
 
             app.UseEndpoints(endpoints =>
             {
