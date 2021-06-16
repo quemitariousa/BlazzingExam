@@ -40,7 +40,7 @@ namespace BlazzingExam.Core.DTOs
 
         public async Task<bool> LoginUser()
         {
-            var result = await _client.PostAsJsonAsync($"{ApiLocations.AccountUrl}/Login", this);
+            var result = await _client.PostAsJsonAsync($"Login", this);
 
             return result.IsSuccessStatusCode;
         }
