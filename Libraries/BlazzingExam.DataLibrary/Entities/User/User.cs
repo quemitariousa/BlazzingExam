@@ -104,13 +104,7 @@ namespace BlazzingExam.DataLibrary.Entities.User
         [MinLength(3, ErrorMessage = "فیلد {0} باید حداقل {1} کاراکتر باشد.")]
         [MaxLength(100, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر باشد")]
         public string LastName { get; set; }
-
-        [Display(Name = "کد ملی", Prompt = "با فرمت: 1091234567")]
-        [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
-        [MaxLength(10, ErrorMessage = "کد ملی به درستی وارد نشده")]
-        [MinLength(10, ErrorMessage = "کد ملی به درستی وارد نشده")]
-        public string NationalCode { get; set; }
-
+        
         [Display(Name = "شماره همراه", Prompt = "09131234566")]
         [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
         [RegularExpression(@"^09[0-9]{9}$", ErrorMessage = "شماره تلفن وارد شده معتبر نیست")]
