@@ -21,7 +21,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
             _userService = userService;
         }
 
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             var loginUser = await _userService.LoginUserAsync(model);
