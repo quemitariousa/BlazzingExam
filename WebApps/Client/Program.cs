@@ -31,6 +31,9 @@ namespace BlazzingExam.WebApps.Client
 
             builder.Services.AddHttpClient<ILoginViewModel, LoginViewModel>("BlazzingExamHttp",
                 cl => cl.BaseAddress = new Uri($"{baseUrl}/Account"));
+
+            builder.Services.AddHttpClient<IRegisterViewModel, RegisterViewModel>("BlazzingExamHttp",
+                cl => cl.BaseAddress = new Uri($"{baseUrl}/Account"));
         }
 
         private static void AddAuthorization(WebAssemblyHostBuilder builder)

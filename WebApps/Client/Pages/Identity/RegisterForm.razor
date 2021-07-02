@@ -1,0 +1,64 @@
+﻿@inject IRegisterViewModel RegisterModel
+
+<EditForm Model="RegisterModel">
+    <div class="text-center">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <TimedMessage @ref="EmailMessage">
+            <p class="text-danger">ایمیل وارد شده از قبل موجود است.</p>
+        </TimedMessage>
+        <TimedMessage @ref="UsernameMessage">
+            <p class="text-danger">ایمیل وارد شده از قبل موجود است.</p>
+        </TimedMessage>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Username">نام کاربری</label>
+                <InputText id="Username" class="form-control" @bind-Value="RegisterModel.UserName" Placeholder="Username"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="FirstName">نام</label>
+                <InputText id="FirstName" class="form-control" @bind-Value="RegisterModel.FirstName" Placeholder="علی"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="PhoneNumber">شماره تلفن</label>
+                <InputText id="PhoneNumber" class="form-control" @bind-Value="RegisterModel.PhoneNumber" Placeholder="09130000000"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="Password">رمز عبور</label>
+                <InputText type="password" id="Password" class="form-control" @bind-Value="RegisterModel.Password" Placeholder="********"></InputText>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="Email">ایمیل</label>
+                <InputText id="Email" class="form-control" @bind-Value="RegisterModel.Password" Placeholder="Email@Gmail.com"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="LastName">نام خانوادگی</label>
+                <InputText id="LastName" class="form-control" @bind-Value="RegisterModel.LastName" Placeholder="ابوترابی"></InputText>
+            </div>
+            <br />
+            <br />
+            <br />
+            <div class="form-group mt-1">
+                <label for="RepeatPassword">تکرار رمز عبور</label>
+                <InputText type="password" id="RepeatPassword" class="form-control" @bind-Value="RegisterModel.RepeatPassword" Placeholder="********"></InputText>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <button type="submit" class="ms-3 me-4 btn btn-primary">ورود</button>
+    <p class="d-inline mt-1">و یا <a href="login">وارد شوید</a></p>
+</EditForm>
+
+@code {
+    TimedMessage EmailMessage;
+    TimedMessage UsernameMessage;
+
+    
+}

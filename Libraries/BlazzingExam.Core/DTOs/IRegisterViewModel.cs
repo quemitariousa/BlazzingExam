@@ -1,11 +1,34 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace BlazzingExam.Core.DTOs
 {
     public interface IRegisterViewModel
     {
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string RepeatPassword { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string PhoneNumber { get; set; }
+
+        Task<bool> Register();
+        Task<bool> IsUsernameExist();
+        Task<bool> IsEmailExists();
+    }
+
+    public class RegisterViewModel : IRegisterViewModel
+    {
+        private readonly HttpClient _client;
+
+        public RegisterViewModel(HttpClient client)
+        {
+            _client = client;
+        }
+
         [Display(Name = "نام کاربری", Prompt = "نام کاربری")]
         [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
         [MinLength(3, ErrorMessage = "فیلد {0} باید حداقل {1} کاراکتر باشد.")]
@@ -51,24 +74,6 @@ namespace BlazzingExam.Core.DTOs
         [RegularExpression(@"^09[0-9]{9}$", ErrorMessage = "شماره تلفن وارد شده معتبر نیست")]
         [MaxLength(11, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر باشد")]
         public string PhoneNumber { get; set; }
-
-
-
-        Task<bool> Register();
-        Task<bool> IsUsernameExist();
-        Task<bool> IsEmailExists();
-    }
-
-    public class RegisterViewModel : IRegisterViewModel
-    {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string RepeatPassword { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
-
 
         public async Task<bool> Register()
         {
