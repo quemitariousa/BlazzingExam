@@ -50,8 +50,6 @@ namespace BlazzingExam.WebApps.Server
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPermissionService, PermissionService>();
-
-            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +87,6 @@ namespace BlazzingExam.WebApps.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapSwagger("/Swagger/{documentName}/swagger.json");
-                endpoints.MapHealthChecks("/test");
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
