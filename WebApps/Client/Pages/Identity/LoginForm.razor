@@ -1,0 +1,40 @@
+@inject ILoginViewModel LoginModel
+
+<EditForm Model="LoginModel" OnValidSubmit="LoginUser">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <TimedMessage @ref="FailMessage">
+        <p class="text-danger">یوزر نیم یا پسورد اشتباه وارد شده است.</p>
+    </TimedMessage>
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group">
+                <label for="Username">نام کاربری</label>
+                <InputText id="Username" class="form-control" @bind-Value="LoginModel.UserName" Placeholder="Username"></InputText>
+            </div>
+            <div class="form-group">
+                <label for="Password">رمز عبور</label>
+                <InputText type="password" id="Password" class="form-control" @bind-Value="LoginModel.Password" Placeholder="********"></InputText>
+            </div>
+            <div class="form-check">
+                <div class="checkbox">
+                    <InputCheckbox id="remember" class="form-check-input form-check-info form-check-glow" checked="checked" @bind-Value="LoginModel.RememberMe"/>
+                    <label for="remember">مرا به یاد بسپار</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-primary">ورود</button>
+</EditForm>
+
+@code {
+    TimedMessage FailMessage;
+    async Task LoginUser()
+    {
+        //var result = await LoginModel.LoginUser();
+    }
+}
