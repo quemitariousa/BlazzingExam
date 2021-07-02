@@ -27,7 +27,7 @@ namespace BlazzingExam.WebApps.Client
         private static void AddServices(WebAssemblyHostBuilder builder)
         {
             var version = 1;
-            var baseUrl = $"{builder.HostEnvironment.BaseAddress}/Api/V{version}";
+            var baseUrl = $"{builder.HostEnvironment.BaseAddress}Api/V{version}";
 
             builder.Services.AddHttpClient<ILoginViewModel, LoginViewModel>("BlazzingExamHttp",
                 cl => cl.BaseAddress = new Uri($"{baseUrl}/Account"));

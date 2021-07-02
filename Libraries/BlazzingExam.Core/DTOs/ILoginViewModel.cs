@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using BlazzingExam.Core.Generators;
+using BlazzingExam.DataLibrary.Entities.User;
 
 namespace BlazzingExam.Core.DTOs
 {
@@ -33,6 +34,11 @@ namespace BlazzingExam.Core.DTOs
     {
         private readonly HttpClient _client;
 
+        public LoginViewModel()
+        {
+
+        }
+
         public LoginViewModel(HttpClient client)
         {
             _client = client;
@@ -40,7 +46,7 @@ namespace BlazzingExam.Core.DTOs
 
         public async Task<bool> LoginUser()
         {
-            var result = await _client.PostAsJsonAsync($"Login", this);
+            var result = await _client.PostAsJsonAsync<User>($"{_client.BaseAddress}/Login/{RememberMe}", this);
 
             return result.IsSuccessStatusCode;
         }
@@ -60,5 +66,23 @@ namespace BlazzingExam.Core.DTOs
         public string Password { get; set; }
         
         public bool RememberMe { get; set; } = true;
+
+        public static implicit operator User(LoginViewModel loginViewModel)
+        {
+            return new User()
+            {
+                UserName = loginViewModel.UserName,
+                Password = loginViewModel.Password,
+            };
+        }
+
+        public static implicit operator LoginViewModel(User user)
+        {
+            return new LoginViewModel()
+            {
+                UserName = user.UserName,
+                Password = user.Password,
+            };
+        }
     }
 }

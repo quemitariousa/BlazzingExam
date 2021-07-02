@@ -2,6 +2,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
+using BlazzingExam.DataLibrary.Entities.User;
 
 namespace BlazzingExam.Core.DTOs
 {
@@ -23,6 +25,11 @@ namespace BlazzingExam.Core.DTOs
     public class RegisterViewModel : IRegisterViewModel
     {
         private readonly HttpClient _client;
+
+        public RegisterViewModel()
+        {
+
+        }
 
         public RegisterViewModel(HttpClient client)
         {
@@ -50,11 +57,7 @@ namespace BlazzingExam.Core.DTOs
         public string Password { get; set; }
 
         [Display(Name = "تکرار رمز عبور", Prompt = "تکرار رمز عبور")]
-        [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
-        [MinLength(8, ErrorMessage = "فیلد {0} باید حداقل {1} کاراکتر باشد.")]
-        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر باشد")]
         [PasswordPropertyText]
-        [Compare(nameof(Password), ErrorMessage = "پسورد ها مطابقت ندارند")]
         public string RepeatPassword { get; set; }
 
         [Display(Name = "نام", Prompt = "علی")]
@@ -77,17 +80,62 @@ namespace BlazzingExam.Core.DTOs
 
         public async Task<bool> Register()
         {
-            throw new System.NotImplementedException();
+            var result = await _client.PostAsJsonAsync<User>($"{_client.BaseAddress}/register", this);
+            if (!result.IsSuccessStatusCode)
+                return false;
+
+            return await result.Content.ReadFromJsonAsync<bool>();
         }
 
         public async Task<bool> IsUsernameExist()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                return await _client.GetFromJsonAsync<bool>($"{_client.BaseAddress}/IsUsernameExist/{this.UserName}");
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public async Task<bool> IsEmailExists()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                return await _client.GetFromJsonAsync<bool>($"{_client.BaseAddress}/IsEmailExists/{this.Email}");
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+        public static implicit operator User(RegisterViewModel model)
+        {
+            return new User()
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Password = model.Password,
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.UserName,
+            };
+        }
+
+        public static implicit operator RegisterViewModel(User model)
+        {
+            return new RegisterViewModel()
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName, 
+                Password = model.Password, 
+                PhoneNumber = model.PhoneNumber,
+                UserName = model.UserName,
+            };
         }
     }
 }

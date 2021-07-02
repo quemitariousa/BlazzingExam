@@ -25,6 +25,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
         /// <summary>
         /// Login a user
         /// </summary>
+        /// <param name="remember">Remember me as boolean</param>
         /// <param name="model">Login View Model</param>
         /// <returns></returns>
         /// <response code="200">User is successfully loged in.</response>
@@ -37,10 +38,10 @@ namespace BlazzingExam.WebApps.Server.Controllers
         ///        "rememberMe": true
         ///    }
         /// </remarks>
-        [HttpPost("[action]")]
+        [HttpPost("[action]/{remember}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(bool remember, LoginViewModel model)
         {
             var loginUser = await _userService.LoginUserAsync(model);
             if (loginUser == null)
@@ -88,7 +89,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
         /// <returns>Is user successfully registered pr not (True or false)</returns>
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<bool> RegisterUser(RegisterViewModel model)
+        public async Task<bool> Register(RegisterViewModel model)
         {
             return await _userService.RegisterUserAsync(model);
         }

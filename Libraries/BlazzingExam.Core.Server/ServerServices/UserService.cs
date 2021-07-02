@@ -31,6 +31,9 @@ namespace BlazzingExam.Core.Server.ServerServices
 
         public async Task<int> AddUserAsync(User user)
         {
+            user.ActiveCode = NameGenerator.GenerateUniqueCode();
+            user.IdentityCode = NameGenerator.GenerateUniqueCode();
+
             await _db.Users.AddAsync(user);
             await _db.SaveChangesAsync();
             return user.UserId;

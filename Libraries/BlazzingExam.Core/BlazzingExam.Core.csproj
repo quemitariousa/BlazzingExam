@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.0-preview.5.21301.17" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BlazzingExam.DataLibrary\BlazzingExam.DataLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

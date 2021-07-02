@@ -25,8 +25,6 @@ namespace BlazzingExam.Core.Server.Security
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-                new Claim("FirstName", user.FirstName),
-                new Claim("LastName", user.LastName),
                 new Claim(nameof(user.IdentityCode), user.IdentityCode),
                 new Claim(nameof(user.ActiveCode), user.ActiveCode),
                 new Claim("Rem", rememberMe.ToString()),

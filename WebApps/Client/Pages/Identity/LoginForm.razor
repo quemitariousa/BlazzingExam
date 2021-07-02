@@ -31,12 +31,13 @@
     <hr />
 
     <button type="submit" class="ms-3 btn btn-primary">ورود</button>
+    <p class="d-inline mt-1">حساب ندارید؟ <a href="login">ثبت نام کنید</a></p>
 </EditForm>
 
 @code {
     TimedMessage FailMessage;
 
-    async Task LoginUser()
+    private async Task LoginUser()
     {
         var result = await LoginModel.LoginUser();
         if (result)
