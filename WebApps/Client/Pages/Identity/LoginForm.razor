@@ -1,14 +1,16 @@
 @inject ILoginViewModel LoginModel
 
 <EditForm Model="LoginModel" OnValidSubmit="LoginUser">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <TimedMessage @ref="FailMessage">
-        <p class="text-danger">یوزر نیم یا پسورد اشتباه وارد شده است.</p>
-    </TimedMessage>
+    <div class="text-center">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <TimedMessage @ref="FailMessage">
+            <p class="text-danger">یوزر نیم یا پسورد اشتباه وارد شده است.</p>
+        </TimedMessage>
+    </div>
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-8 m-auto">
             <div class="form-group">
                 <label for="Username">نام کاربری</label>
                 <InputText id="Username" class="form-control" @bind-Value="LoginModel.UserName" Placeholder="Username"></InputText>
@@ -19,7 +21,7 @@
             </div>
             <div class="form-check">
                 <div class="checkbox">
-                    <InputCheckbox id="remember" class="form-check-input form-check-info form-check-glow" checked="checked" @bind-Value="LoginModel.RememberMe"/>
+                    <InputCheckbox id="remember" class="form-check-input form-check-info form-check-glow" checked="checked" @bind-Value="LoginModel.RememberMe" />
                     <label for="remember">مرا به یاد بسپار</label>
                 </div>
             </div>
@@ -28,13 +30,18 @@
 
     <hr />
 
-    <button type="submit" class="btn btn-primary">ورود</button>
+    <button type="submit" class="ms-3 btn btn-primary">ورود</button>
 </EditForm>
 
 @code {
     TimedMessage FailMessage;
+
     async Task LoginUser()
     {
-        //var result = await LoginModel.LoginUser();
+        var result = await LoginModel.LoginUser();
+        if (result)
+            NavigationManager.NavigateTo("/", true);
+        else
+            FailMessage.Show();
     }
 }

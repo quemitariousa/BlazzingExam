@@ -4,6 +4,8 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using BlazzingExam.Core.DTOs;
+using Microsoft.AspNetCore.Components.Authorization;
+using BlazzingExam.Core.Security;
 
 namespace BlazzingExam.WebApps.Client
 {
@@ -17,6 +19,7 @@ namespace BlazzingExam.WebApps.Client
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             
             AddServices(builder);
+            AddAuthorization(builder);
 
             await builder.Build().RunAsync();
         }
@@ -28,6 +31,14 @@ namespace BlazzingExam.WebApps.Client
 
             builder.Services.AddHttpClient<ILoginViewModel, LoginViewModel>("BlazzingExamHttp",
                 cl => cl.BaseAddress = new Uri($"{baseUrl}/Account"));
+        }
+
+        private static void AddAuthorization(WebAssemblyHostBuilder builder)
+        {
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
+
+            builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         }
     }
 }

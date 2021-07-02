@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Components.Authorization;
+using BlazzingExam.Core.DTOs;
 
 namespace BlazzingExam.Core.Security
 {
@@ -19,32 +20,28 @@ namespace BlazzingExam.Core.Security
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            //User user = null;
-            //try
-            //{
-            //    user = await _httpClient.GetFromJsonAsync<User>("getme");
-            //}
-            //catch
-            //{
+            try
+            {
+                LogedInUserViewModel user = await _httpClient.GetFromJsonAsync<LogedInUserViewModel>("getme");
 
-            //}
-            //if (user != null)
-            //{
-            //    var claims = new List<Claim>
-            //    {
-            //        new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-            //        new Claim(ClaimTypes.Name, user.UserName),
-            //        new Claim(ClaimTypes.Email, user.Email),
-            //        new Claim("FullName", $"{user.FirstName} {user.LastName}"),
-            //        new Claim("FirstName", user.FirstName),
-            //        new Claim("LastName", user.LastName),
-            //    };
+                if (user != null)
+                {
+                    var claims = new List<Claim>() {
+                        new Claim(ClaimTypes.NameIdentifier, user.Id),
+                        new Claim(ClaimTypes.Name, user.Username),
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim("FullName", user.FullName)
+                    };
 
-            //    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            //    var principal = new ClaimsPrincipal(identity);
-            //    return new AuthenticationState(principal);
-            //}
-            //TODO: Check this
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    return new AuthenticationState(principal);
+                }
+            }
+            finally
+            {
+            }
+
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
     }
