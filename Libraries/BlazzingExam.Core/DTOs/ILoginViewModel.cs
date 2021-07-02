@@ -45,8 +45,20 @@ namespace BlazzingExam.Core.DTOs
             return result.IsSuccessStatusCode;
         }
 
+        [Display(Name = "نام کاربری", Prompt = "نام کاربری")]
+        [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
+        [MinLength(3, ErrorMessage = "فیلد {0} باید حداقل {1} کاراکتر باشد.")]
+        [MaxLength(60, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر باشد")]
         public string UserName { get; set; }
+
+        [Display(Name = "رمز عبور", Prompt = "رمز عبور")]
+        [Required(ErrorMessage = "{0} نمیتواند خالی باشد")]
+        [MinLength(8, ErrorMessage = "فیلد {0} باید حداقل {1} کاراکتر باشد.")]
+        [MaxLength(200, ErrorMessage = "{0} نمیتواند بیش از {1} کاراکتر باشد")]
+        [PasswordPropertyText]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
+        
         public bool RememberMe { get; set; }
     }
 }
