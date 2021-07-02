@@ -1,3 +1,6 @@
+using System;
+using System.IO;
+using System.Reflection;
 using BlazzingExam.Core.Server.Security;
 using BlazzingExam.Core.Server.Security.Middlewares.Extensions;
 using BlazzingExam.Core.Server.ServerServices;
@@ -10,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace BlazzingExam.WebApps.Server
 {
@@ -26,6 +30,11 @@ namespace BlazzingExam.WebApps.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "BlazzingExam Api", Version = "v1" });
+            });
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
 
@@ -41,6 +50,8 @@ namespace BlazzingExam.WebApps.Server
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IPermissionService, PermissionService>();
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,8 +79,17 @@ namespace BlazzingExam.WebApps.Server
             app.UseAuthorization();
             app.UseIdentityUpdater();
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/Swagger/v1/swagger.json", "My API V1");
+            });
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapSwagger("/Swagger/{documentName}/swagger.json");
+                endpoints.MapHealthChecks("/test");
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
