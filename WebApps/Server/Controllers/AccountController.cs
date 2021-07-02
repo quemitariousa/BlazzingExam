@@ -50,5 +50,47 @@ namespace BlazzingExam.WebApps.Server.Controllers
 
             return Ok();
         }
+
+        /// <summary>
+        /// Check if is email exists or not
+        /// </summary>
+        /// <param name="email">Email address</param>
+        /// <returns>True or false</returns>
+        /// <remarks>
+        ///     Get: /IsEmailExists/Example@gmail.com
+        /// </remarks>
+        [HttpGet("[action]/{email:required}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<bool> IsEmailExists(string email)
+        {
+            return await _userService.IsExistEmailAsync(email);
+        }
+
+        /// <summary>
+        /// Check if is username exists or not
+        /// </summary>
+        /// <param name="userName">Email address</param>
+        /// <returns>True or false</returns>
+        /// <remarks>
+        ///     Get: /IsUserNameExists/MyUniqueUsername
+        /// </remarks>
+        [HttpGet("[action]/{userName:required}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<bool> IsUserNameExists(string userName)
+        {
+            return await _userService.IsUserNameExistAsync(userName);
+        }
+
+        /// <summary>
+        /// Register a new user
+        /// </summary>
+        /// <param name="model">Register view model</param>
+        /// <returns>Is user successfully registered pr not (True or false)</returns>
+        [HttpPost("[action]")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<bool> RegisterUser(RegisterViewModel model)
+        {
+            return await _userService.RegisterUserAsync(model);
+        }
     }
 }
