@@ -22,6 +22,8 @@ namespace BlazzingExam.WebApps.Server.Controllers
         }
 
 
+        #region Login
+
         /// <summary>
         /// Login a user
         /// </summary>
@@ -51,6 +53,10 @@ namespace BlazzingExam.WebApps.Server.Controllers
 
             return Ok();
         }
+
+        #endregion
+
+        #region Register requirements
 
         /// <summary>
         /// Check if is email exists or not
@@ -94,6 +100,10 @@ namespace BlazzingExam.WebApps.Server.Controllers
             return await _userService.RegisterUserAsync(model);
         }
 
+        #endregion
+
+        #region Identity Requirements
+
         /// <summary>
         /// Get current logged in user as <see cref="LoggedInUserViewModel"/>
         /// </summary>
@@ -113,5 +123,22 @@ namespace BlazzingExam.WebApps.Server.Controllers
 
             return Unauthorized();
         }
+
+        /// <summary>
+        /// Logout user
+        /// </summary>
+        /// <returns></returns>
+        [Route("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await HttpContext.LogoutAsync();
+            }
+
+            return Redirect("/");
+        }
+
+        #endregion
     }
 }
