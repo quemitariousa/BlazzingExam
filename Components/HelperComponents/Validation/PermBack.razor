@@ -12,9 +12,9 @@
     [Parameter]
     public bool ReloadRequired { get; set; } = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        if (!_permissionChecker.HasPermission(PermissionId))
+        if (!await _permissionChecker.HasPermission(PermissionId))
         {
             NavigationManager.NavigateTo(ReturnUrl, ReloadRequired);
         }

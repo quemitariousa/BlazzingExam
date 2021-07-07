@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace BlazzingExam.Core.Security
@@ -16,14 +17,13 @@ namespace BlazzingExam.Core.Security
             _logger = logger;
         }
 
-        public bool HasPermission(int permissionId)
+        public async Task<bool> HasPermission(int permissionId)
         {
             try
             {
-                //TODO: Check this in backend
-                var result = _client.GetAsync($"/perm/{permissionId}").Result;
+                var result = await _client.GetAsync($"/perm/{permissionId}");
                 if (result.IsSuccessStatusCode)
-                    return result.Content.ReadFromJsonAsync<bool>().Result;
+                    return await result.Content.ReadFromJsonAsync<bool>();
                 else
                     _logger.LogError($"Error while checking permission {permissionId}");
             }

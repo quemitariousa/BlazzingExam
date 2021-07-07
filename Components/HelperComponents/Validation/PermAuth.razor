@@ -37,9 +37,9 @@
 
     private bool _hasPermission;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _hasPermission = _permissionChecker.HasPermission(PermissionId);
+        _hasPermission = await _permissionChecker.HasPermission(PermissionId);
     }
 
 }

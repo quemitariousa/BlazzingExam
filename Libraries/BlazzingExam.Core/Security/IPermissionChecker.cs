@@ -1,7 +1,9 @@
-﻿namespace BlazzingExam.Core.Security
+﻿using System.Threading.Tasks;
+
+namespace BlazzingExam.Core.Security
 {
     public interface IPermissionChecker
     {
-        bool HasPermission(int permissionId);
+        Task<bool> HasPermission(int permissionId);
     }
 }

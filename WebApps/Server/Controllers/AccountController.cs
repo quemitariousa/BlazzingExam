@@ -139,7 +139,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
         /// Logout user
         /// </summary>
         /// <returns></returns>
-        [Route("/logout")]
+        [HttpGet("/logout")]
         public async Task<IActionResult> Logout()
         {
             if (User.Identity.IsAuthenticated)
@@ -156,7 +156,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
         /// Check user have permission or not.
         /// </summary>
         /// <param name="permId">Permission Id</param>
-        [Route("/perm/{permId:required}")]
+        [HttpGet("/perm/{permId:required}")]
         public async Task<bool> PermissionChecker(int permId)
         {
             if (!User.Identity.IsAuthenticated)
