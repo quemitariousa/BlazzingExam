@@ -1,4 +1,6 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using BlazzingExam.Core.Security
+@inject NavigationManager NavigationManager
+@inject IPermissionChecker _permissionChecker
 
 @functions{
     [Parameter]
@@ -12,11 +14,10 @@
 
     protected override void OnInitialized()
     {
-        @*if (!PermissionChecker.HasPermission(PermissionId))
+        if (!_permissionChecker.HasPermission(PermissionId))
         {
             NavigationManager.NavigateTo(ReturnUrl, ReloadRequired);
-        }*@
-        // TODO: Get Permission from backend
+        }
     }
 
 }

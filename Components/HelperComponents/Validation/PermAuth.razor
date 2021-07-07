@@ -1,16 +1,18 @@
-﻿<AuthorizeView>
+﻿@using BlazzingExam.Core.Security
+@inject IPermissionChecker _permissionChecker
+
+<AuthorizeView>
     <Authorized>
         @if (_hasPermission)
-                {
-        <div>@Authorized</div>
-        }
-                else
-                {
-        <div>@AuthorizePermNotFound</div>
+        {
+            <div>@Authorized</div>
+        }else
+        {
+            <div>@AuthorizePermNotFound</div>
         }
     </Authorized>
     <NotAuthorized>
-        @UnAuthorized
+        @NotAuthorized
     </NotAuthorized>
     <Authorizing>
         @Authorizing
@@ -22,7 +24,7 @@
     public RenderFragment Authorized { get; set; }
 
     [Parameter]
-    public RenderFragment UnAuthorized { get; set; }
+    public RenderFragment NotAuthorized { get; set; }
 
     [Parameter]
     public RenderFragment Authorizing { get; set; }
@@ -37,8 +39,7 @@
 
     protected override void OnInitialized()
     {
-        @*_hasPermission = _permissionChecker.HasPermission(PermissionId);*@
-        // TODO: Get Permission From backend
+        _hasPermission = _permissionChecker.HasPermission(PermissionId);
     }
 
 }

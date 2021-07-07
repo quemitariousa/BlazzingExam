@@ -29,7 +29,7 @@ namespace BlazzingExam.Core.Security
             }
             catch(Exception e)
             {
-                _logger.LogError(e);
+                _logger.LogError(e, "Error on Permission Checker class");
             }
 
             return false;
