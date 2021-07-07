@@ -42,6 +42,7 @@ namespace BlazzingExam.WebApps.Client
             builder.Services.AddAuthorizationCore();
 
             builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            builder.Services.AddTransient<IPermissionChecker, PermissionChecker>();
         }
     }
 }
