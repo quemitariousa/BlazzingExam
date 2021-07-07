@@ -2,25 +2,49 @@
 
 <div class="sidebar-menu">
     <ul class="menu">
-        <li class="sidebar-title">Menu</li>
+        <li class="sidebar-title">منوی وبسایت</li>
         <LiNavLink class="sidebar-item" Link="" Match="NavLinkMatch.All">
             <a href="" class="sidebar-link">
                 <i class="bi bi-grid-fill"></i>
-                <span>Dashboard</span>
+                <span>صفحه اصلی</span>
             </a>
         </LiNavLink>
-        <LiNavLink class="sidebar-item" Link="hi">
+        <LiNavLink class="sidebar-item" Link="#">
             <a href="#" class="sidebar-link">
                 <i class="bi bi-grid-fill"></i>
-                <span>Test</span>
+                <span>تست</span>
             </a>
         </LiNavLink>
         <LiNavLink class="sidebar-item" Link="admin">
             <a href="admin" class="sidebar-link">
-                <i class="bi bi-user"></i>
-                <span>Admin</span>
+                <i class="bi bi-kanban-fill"></i>
+                <span>پنل مدیریت</span>
             </a>
         </LiNavLink>
+        <AuthorizeView>
+            <Authorized>
+                <LiNavLink class="sidebar-item" Link="/logout">
+                    <a href="logout" class="sidebar-link">
+                        <i class="bi bi-door-closed-fill"></i>
+                        <span>خروج</span>
+                    </a>
+                </LiNavLink>
+            </Authorized>
+            <NotAuthorized>
+                <LiNavLink class="sidebar-item" Link="/login">
+                    <a href="login" class="sidebar-link">
+                        <i class="bi bi-door-open-fill"></i>
+                        <span>ورود</span>
+                    </a>
+                </LiNavLink>
+                <LiNavLink class="sidebar-item" Link="/register">
+                    <a href="register" class="sidebar-link">
+                        <i class="bi bi-pen-fill"></i>
+                        <span>ثبت نام</span>
+                    </a>
+                </LiNavLink>
+            </NotAuthorized>
+        </AuthorizeView>
     </ul>
 </div>
 
