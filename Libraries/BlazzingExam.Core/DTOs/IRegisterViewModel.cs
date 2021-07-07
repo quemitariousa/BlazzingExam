@@ -91,7 +91,7 @@ namespace BlazzingExam.Core.DTOs
         {
             try
             {
-                return await _client.GetFromJsonAsync<bool>($"{_client.BaseAddress}/IsUsernameExist/{this.UserName}");
+                return await _client.GetFromJsonAsync<bool>($"{_client.BaseAddress}/IsUsernameExists/{this.UserName}");
             }
             catch
             {

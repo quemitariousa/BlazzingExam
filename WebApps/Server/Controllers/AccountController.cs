@@ -93,5 +93,25 @@ namespace BlazzingExam.WebApps.Server.Controllers
         {
             return await _userService.RegisterUserAsync(model);
         }
+
+        /// <summary>
+        /// Get current logged in user as <see cref="LoggedInUserViewModel"/>
+        /// </summary>
+        /// <returns>Unauthorized if user is not loged in, else return <see cref="LoggedInUserViewModel"/></returns>
+        /// <response code="200">Loged in user as <see cref="LoggedInUserViewModel"/></response>
+        /// <response code="401">Un authorized status if user is not loged in</response>
+        [HttpGet("/GetMe")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public async Task<IActionResult> GetMe()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
+                return Ok((LoggedInUserViewModel) user);
+            }
+
+            return Unauthorized();
+        }
     }
 }

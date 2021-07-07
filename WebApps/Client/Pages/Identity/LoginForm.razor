@@ -4,7 +4,7 @@
     <div class="text-center">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <TimedMessage @ref="FailMessage">
+        <TimedMessage @ref="_failMessage">
             <p class="text-danger">یوزر نیم یا پسورد اشتباه وارد شده است.</p>
         </TimedMessage>
     </div>
@@ -30,12 +30,12 @@
 
     <hr />
 
-    <button type="submit" class="ms-3 btn btn-primary">ورود</button>
+    <button type="submit" class="ms-3 me-4 btn btn-primary">ورود</button>
     <p class="d-inline mt-1">حساب ندارید؟ <a href="login">ثبت نام کنید</a></p>
 </EditForm>
 
 @code {
-    TimedMessage FailMessage;
+    TimedMessage _failMessage;
 
     private async Task LoginUser()
     {
@@ -43,6 +43,6 @@
         if (result)
             NavigationManager.NavigateTo("/", true);
         else
-            FailMessage.Show();
+            _failMessage.Show();
     }
 }

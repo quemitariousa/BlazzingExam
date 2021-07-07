@@ -8,13 +8,13 @@
     public string ReturnUrl { get; set; } = "/";
 
     [Parameter]
-    public bool RelodRequired { get; set; } = false;
+    public bool ReloadRequired { get; set; } = false;
 
     protected override void OnInitialized()
     {
         @*if (!PermissionChecker.HasPermission(PermissionId))
         {
-            NavigationManager.NavigateTo(ReturnUrl, RelodRequired);
+            NavigationManager.NavigateTo(ReturnUrl, ReloadRequired);
         }*@
         // TODO: Get Permission from backend
     }

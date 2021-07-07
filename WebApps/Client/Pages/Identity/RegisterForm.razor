@@ -4,13 +4,13 @@
     <div class="text-center">
         <DataAnnotationsValidator />
         <ValidationSummary />
-        <TimedMessage @ref="EmailMessage">
+        <TimedMessage @ref="_emailMessage">
             <p class="text-danger">ایمیل وارد شده از قبل موجود است.</p>
         </TimedMessage>
-        <TimedMessage @ref="UsernameMessage">
-            <p class="text-danger">ایمیل وارد شده از قبل موجود است.</p>
+        <TimedMessage @ref="_usernameMessage">
+            <p class="text-danger">نام کاربری وارد شده از قبل موجود است.</p>
         </TimedMessage>
-        <TimedMessage @ref="SuccessMessage" OnTimerDone="RedirectToLoginPage">
+        <TimedMessage @ref="_successMessage" OnTimerDone="RedirectToLoginPage">
             <div class="alert alert-success">
                 <p>ثبت نام شما با موفقیت انجام شد. تا چند لحظه دیگر به <a class="alert-link" href="login">صفحه ورود</a> هدایت میشوید</p>
             </div>
@@ -39,7 +39,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="Email">ایمیل</label>
-                <InputText id="Email" class="form-control" @bind-Value="RegisterModel.Email" Placeholder="Email@Gmail.com"></InputText>
+                <InputText type="email" id="Email" class="form-control" @bind-Value="RegisterModel.Email" Placeholder="Email@Gmail.com"></InputText>
             </div>
             <div class="form-group">
                 <label for="LastName">نام خانوادگی</label>
@@ -50,7 +50,7 @@
             <br />
             <div class="form-group mt-1">
                 <label for="RepeatPassword">تکرار رمز عبور</label>
-                <TimedMessage @ref="PasswordsMessage">
+                <TimedMessage @ref="_passwordsMessage">
                     <small class="text-danger">پسورد ها مطابقت ندارند</small>
                 </TimedMessage>
                 <InputText type="password" id="RepeatPassword" class="form-control" @bind-Value="RegisterModel.RepeatPassword" Placeholder="********"></InputText>
@@ -65,28 +65,28 @@
 </EditForm>
 
 @code {
-    private TimedMessage EmailMessage;
-    private TimedMessage UsernameMessage;
-    private TimedMessage SuccessMessage;
-    private TimedMessage PasswordsMessage;
+    private TimedMessage _emailMessage;
+    private TimedMessage _usernameMessage;
+    private TimedMessage _successMessage;
+    private TimedMessage _passwordsMessage;
 
     private async Task RegisterUser()
     {
         if(RegisterModel.Password != RegisterModel.RepeatPassword)
         {
-            PasswordsMessage.Show();
+            _passwordsMessage.Show();
             return;
         }
 
         var canContinue = true;
         if (await RegisterModel.IsEmailExists())
         {
-            EmailMessage.Show();
+            _emailMessage.Show();
             canContinue = false;
         }
         if (await RegisterModel.IsUsernameExist())
         {
-            UsernameMessage.Show();
+            _usernameMessage.Show();
             canContinue = false;
         }
 
@@ -94,7 +94,7 @@
         {
             var result = await RegisterModel.Register();
             if(result)
-                SuccessMessage.Show();
+                _successMessage.Show();
         }
     }
 

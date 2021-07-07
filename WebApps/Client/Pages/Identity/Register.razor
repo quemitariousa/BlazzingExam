@@ -17,5 +17,13 @@
 </section>
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState> Auth { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        var user = (await Auth).User;
+        if (user.Identity.IsAuthenticated)
+            NavigationManager.NavigateTo("/");
+    }
 }
