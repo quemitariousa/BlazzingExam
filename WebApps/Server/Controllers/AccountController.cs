@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BlazzingExam.Core.DTOs;
 using BlazzingExam.Core.Server.Security;
 using BlazzingExam.Core.Server.ServerServices.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace BlazzingExam.WebApps.Server.Controllers
 {
@@ -15,10 +16,14 @@ namespace BlazzingExam.WebApps.Server.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IPermissionService _permissionService;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, IPermissionService permissionService, ILogger<AccountController> logger)
         {
             _userService = userService;
+            _permissionService = permissionService;
+            _logger = logger;
         }
 
 
@@ -47,8 +52,14 @@ namespace BlazzingExam.WebApps.Server.Controllers
         {
             var loginUser = await _userService.LoginUserAsync(model);
             if (loginUser == null)
+            {
+                _logger.LogWarning(
+                    "[FAIL LOGIN]: User with username {userName} tried to loggin with password {password}.",
+                    model.UserName, model.Password);
                 return BadRequest();
+            }
 
+            _logger.LogInformation("[SUCCESS LOGIN]: user {username} logged in.", model.UserName);
             await HttpContext.LoginAsync(loginUser, model.RememberMe);
 
             return Ok();
@@ -118,7 +129,7 @@ namespace BlazzingExam.WebApps.Server.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var user = await _userService.GetUserByUserNameAsync(User.Identity.Name);
-                return Ok((LoggedInUserViewModel) user);
+                return Ok((LoggedInUserViewModel)user);
             }
 
             return Unauthorized();
@@ -133,10 +144,24 @@ namespace BlazzingExam.WebApps.Server.Controllers
         {
             if (User.Identity.IsAuthenticated)
             {
+                _logger.LogInformation($"[LOG OUT]: User {User.Identity.Name} Logged out");
                 await HttpContext.LogoutAsync();
             }
 
             return Redirect("/");
+        }
+
+
+        /// <summary>
+        /// Check user have permission or not.
+        /// </summary>
+        /// <param name="permId">Permission Id</param>
+        [Route("/perm/{permId:required}")]
+        public async Task<bool> PermissionChecker(int permId)
+        {
+            if (!User.Identity.IsAuthenticated)
+                return false;
+            return await _permissionService.IsUserInPermissionAsync(User.Identity.Name, permId);
         }
 
         #endregion
