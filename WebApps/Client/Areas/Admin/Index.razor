@@ -1,7 +1,12 @@
 ﻿@page "/Admin"
-<PermBack PermissionId="1" ReturnUrl="/"/>
 
-<h3>Index</h3>
+<PermAuth PermissionId="1" RedirectUrl="/">
+    <Authorized>
+        <p>
+            Hello! welcome to Here!
+        </p>
+    </Authorized>
+</PermAuth>
 
 @code {
 

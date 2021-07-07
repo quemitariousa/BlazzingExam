@@ -1,5 +1,6 @@
 ﻿@using BlazzingExam.Core.Security
 @inject IPermissionChecker _permissionChecker
+@inject NavigationManager _navigationManager
 
 <AuthorizeView>
     <Authorized>
@@ -35,11 +36,19 @@
     [Parameter]
     public int PermissionId { get; set; }
 
+    [Parameter]
+    public string? RedirectUrl { get; set; }
+
+    [Parameter]
+    public bool ReloadRequired { get; set; }
+
     private bool _hasPermission;
 
     protected override async Task OnInitializedAsync()
     {
         _hasPermission = await _permissionChecker.HasPermission(PermissionId);
+        if (!_hasPermission && RedirectUrl != null)
+            _navigationManager.NavigateTo(RedirectUrl, ReloadRequired);
     }
 
 }
