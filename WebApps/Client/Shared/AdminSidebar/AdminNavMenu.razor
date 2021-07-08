@@ -3,12 +3,22 @@
 <div class="sidebar-menu">
     <ul class="menu">
         <li class="sidebar-title">منوی ادمین</li>
-        <LiNavLink class="sidebar-item" Link="/Admin">
+        <LiNavLink class="sidebar-item" Link="/Admin" Match="NavLinkMatch.All">
             <a href="/Admin" class="sidebar-link">
                 <i class="bi bi-kanban-fill"></i>
                 <span>داشبورد ادمین</span>
             </a>
         </LiNavLink>
+        <PermAuth PermissionId="2">
+            <Authorized>
+                <LiNavLink class="sidebar-item" Link="/Admin/Users">
+                    <a href="/Admin/Users" class="sidebar-link">
+                        <i class="bi bi-grid-fill"></i>
+                        <span>مدیریت کاربران</span>
+                    </a>
+                </LiNavLink>
+            </Authorized>
+        </PermAuth>
         <LiNavLink class="sidebar-item" Link="" Match="NavLinkMatch.All">
             <a href="" class="sidebar-link">
                 <i class="bi bi-grid-fill"></i>
