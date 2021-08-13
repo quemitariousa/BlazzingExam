@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BlazzingExam.Core.DTOs;
 using Microsoft.AspNetCore.Components.Authorization;
 using BlazzingExam.Core.Security;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace BlazzingExam.WebApps.Client
 {
@@ -20,6 +21,8 @@ namespace BlazzingExam.WebApps.Client
 
             AddServices(builder);
             AddAuthorization(builder);
+
+            builder.RootComponents.Add<HeadOutlet>("head::after");
 
             await builder.Build().RunAsync();
         }
